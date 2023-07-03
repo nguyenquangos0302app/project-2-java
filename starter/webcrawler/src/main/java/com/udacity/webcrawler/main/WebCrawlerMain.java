@@ -44,9 +44,12 @@ public final class WebCrawlerMain {
       Path path = Path.of(config.getResultPath());
       resultWriter.write(path);
     } else {
-      Writer writer = new OutputStreamWriter(System.out);
-      resultWriter.write(writer);
-      writer.flush();
+      try (Writer writer = new OutputStreamWriter(System.out)) {
+        resultWriter.write(writer);
+        writer.flush();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
 
     // TODO: Write the profile data to a text file (or System.out if the file name is empty)
@@ -54,9 +57,13 @@ public final class WebCrawlerMain {
       Path path = Path.of(config.getProfileOutputPath());
       profiler.writeData(path);
     } else {
-      Writer writer = new OutputStreamWriter(System.out);
-      profiler.writeData(writer);
-      writer.flush();
+      try (Writer writer = new OutputStreamWriter(System.out);) {
+        profiler.writeData(writer);
+        writer.flush();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+
     }
   }
 
