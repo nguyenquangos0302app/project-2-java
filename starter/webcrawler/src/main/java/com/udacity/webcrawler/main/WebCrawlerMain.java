@@ -47,8 +47,6 @@ public final class WebCrawlerMain {
       try (Writer writer = new OutputStreamWriter(System.out)) {
         resultWriter.write(writer);
         writer.flush();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
       }
     }
 
@@ -60,10 +58,7 @@ public final class WebCrawlerMain {
       try (Writer writer = new OutputStreamWriter(System.out);) {
         profiler.writeData(writer);
         writer.flush();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
       }
-
     }
   }
 
