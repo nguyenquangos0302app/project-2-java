@@ -46,14 +46,16 @@ public final class WebCrawlerMain {
     writeProfileResult();
   }
 
-  private void writeCrawlResult(CrawlResultWriter resultWriter) throws IOException {
+  private void writeCrawlResult(CrawlResultWriter resultWriter) {
     if (!config.getResultPath().isEmpty()){
       Path path = Path.of(config.getResultPath());
       resultWriter.write(path);
-    } else{
-      Writer writer = new OutputStreamWriter(System.out);
-      resultWriter.write(writer);
-      writer.flush();
+    } else {
+      try (Writer writer = new OutputStreamWriter(System.out)) {
+        resultWriter.write(writer);
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
     }
   }
 
@@ -61,10 +63,12 @@ public final class WebCrawlerMain {
     if (!config.getProfileOutputPath().isEmpty()){
       Path path = Path.of(config.getProfileOutputPath());
       profiler.writeData(path);
-    } else{
-      Writer writer = new OutputStreamWriter(System.out);
-      profiler.writeData(writer);
-      writer.flush();
+    } else {
+      try (Writer writer = new OutputStreamWriter(System.out)) {
+        profiler.writeData(writer);
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
     }
   }
 
