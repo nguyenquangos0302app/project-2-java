@@ -35,8 +35,9 @@ public final class CrawlResultWriter {
     // This is here to get rid of the unused variable warning.
     Objects.requireNonNull(path);
     // TODO: Fill in this method.
-    try {
-      write(new FileWriter(Objects.requireNonNull(path).toFile(), true));
+    try (FileWriter fileWriter =
+            new FileWriter(Objects.requireNonNull(path).toFile(), true)) {
+      write(fileWriter);
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
